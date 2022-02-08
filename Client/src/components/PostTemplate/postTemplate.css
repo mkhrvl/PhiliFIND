@@ -1,0 +1,32 @@
+#view-button, #alert-button {
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    
+}
+
+
+#view-button:hover, #alert-button:hover {
+    text-shadow: 2px 2px 4px gray;
+}
+
+
+.buttonWrapper {
+    display: flex;
+    box-sizing: border-box;
+    margin: 3%;
+}
+
+.view-Wrapper {
+    position: 'right';
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.alert-Wrapper {
+    width: 100%;
+    justify-content: flex-end;
+    text-align: right;
+}

@@ -1,0 +1,8 @@
+/* Temporary Scrollbar for Layouting */
+html {
+    overflow-y: scroll;
+}
+
+.post-container {
+    padding-top: 5%;
+}

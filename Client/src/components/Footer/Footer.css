@@ -1,0 +1,39 @@
+.footer {
+    color: #fff;
+    background-color: #05445E;
+    padding: 2rem 13.45rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-size: 11pt;
+}
+
+.footer ul {
+    list-style: none;
+}
+
+.footer .row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+}
+
+.footer .row:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Temporaritly Hide Lists */
+.footer .row:first-of-type {
+    display: none;
+}
+
+@media screen and (max-width: 1140px ) {
+    .footer {
+        padding: 1.5rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+

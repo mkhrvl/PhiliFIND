@@ -1,0 +1,19 @@
+* {
+  /* Removes default margin and padding */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* Cusotm Google Font: Open Sans Light 300 */
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Ensures that footer is always at the bottom of the view port */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-container {
+  flex: 1;
+}
