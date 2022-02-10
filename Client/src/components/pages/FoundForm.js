@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import {Form} from 'react-bootstrap'
 import './FoundForm.css';
 
@@ -21,7 +21,7 @@ import { breakpoints } from '@mui/system';
 function FoundForm () {
 
 
-    const API_PATH = 'http'
+    const API_PATH = 'http://localhost/philiFIND/found.php';
     // Default value for variables
     const [values, setValues] = useState({
         fd_item: "",
@@ -36,22 +36,24 @@ function FoundForm () {
         fd_date: new Date(),
         fd_time: new Date(),
         fd_category: "",
-        fd_addinfo: ""
+        fd_addinfo: "",
+        dataSent:""
     })
 
     // Default values for text field error prop
     const [textFieldError, setTextFieldError] = useState(false)
     const [locationError, setLocationError] = useState(false)
     const [zipError, setZipError] = useState(false)
-    const [fd_emailError, setfd_emailError] = useState(false)
+    const [emailError, setemailError] = useState(false)
     const [phoneError, setPhoneError] = useState(false)
+
+    // Formats
     const validfd_emailFormat = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
     const validPhoneNo = new RegExp('^[09][0-9""]{10,}$')
 
     // Handle the Submission to output through console
     const handleSubmit = (e) => { 
-        e.preventDefault();
-        // window.location.reload();
+        //window.location.reload();
 
         // Handle error checking
         if (values.fd_item === "") {
@@ -59,7 +61,7 @@ function FoundForm () {
             window.alert('error fd_item');
         }
         else if (!validfd_emailFormat.test(values.fd_email)) {
-            setfd_emailError(true);
+            setemailError(true);
             window.alert('error fd_email');
         }
         else if (!validPhoneNo.test(values.fd_pcontact)){
@@ -76,33 +78,38 @@ function FoundForm () {
         }
         else {
 
+            e.preventDefault();
+
             //get data
-            console.log(values)
+            // console.log(values)
             setZipError(false);
             setLocationError(false);
-            setfd_emailError(false);
+            setemailError(false);
             setPhoneError(false);
             setTextFieldError(false);
+
+            //Backend Stuffs
+            axios({
+                method: 'post',
+                url: API_PATH,
+                headers: {
+                    'content-type': 'application/json'
+                },
+
+                data: values
+            })
+                .then(result => {
+
+                    // setValues({
+                    //     dataSent: ""
+                    // })
+                    console.log(result.data)
+                    console.log(values)
+                })
+                .catch(error => setValues({
+                    error: "this is an error"
+                }));
         }
-
-        // const obj = {
-        //     fd_item: values.fd_item,
-        //     fd_place: values.fd_place,
-        //     fd_zip: values.fd_zip, 
-        //     fd_name: values.fd_name,
-        //     fd_color: values.fd_color, 
-        //     fd_email: values.fd_email,
-        //     fd_pcontact: values.fd_pcontact,
-        //     fd_scontact: values.fd_scontact,
-        //     fd_date: values.fd_date,
-        //     fd_time: values.fd_time,
-        //     fd_catergory: values.fd_category,
-        //     fd_addinfo: values.fd_addinfo ,
-        //     fd_brand: values.fd_brand,
-        // }
-
-        axios.post('http://localhost/ReactPHPCRUD/insert.php', values)
-        .then(res => console.log(res.data));
     }
 
 
@@ -120,7 +127,7 @@ function FoundForm () {
                         <div className="section-header"><div className='section-header-wrapper'>Found Item Information</div></div><br />
 
                         {/* Controller for grid spacing */}
-                        <Grid container rowSpacing={2} columnSpacing={2}>
+                        <Grid container spacing={2}>
                             <Grid item={true} xs={12} sm={12} md={6}>
                                 {/* Item Found Field */}
                                 <StyledTextField
@@ -132,7 +139,7 @@ function FoundForm () {
                                     fullWidth
                                     required
                                     error ={textFieldError}
-                                    value={values.fd_item}
+                                    value={values.fd_item || ''}
                                     onChange={(e) => setValues({ ...values, fd_item: e.target.value })}
                                 />
                             </Grid>
@@ -181,12 +188,12 @@ function FoundForm () {
                                     value={values.fd_brand}
                                     onChange={(e) => setValues({ ...values, fd_brand: e.target.value })}
                                     required
-                                    error ={textFieldError}
+                                    error={textFieldError}
                                 />
                             </Grid>
                             {/* End of Item Brand/Breed Field */}
 
-                            {/* Item fd_color Field */}
+                            {/* Item Color Field */}
                             <Grid item={true} xs={12} sm={6}>
                                 <StyledTextField
                                     id="fd_color"
@@ -195,30 +202,54 @@ function FoundForm () {
                                     name='item-color'
                                     size='medium'
                                     fullWidth
+                                    value={values.fd_color}
                                     onChange={(e) => setValues({ ...values, fd_color: e.target.value })}
                                 />
                             </Grid>
-                            {/* End of Item fd_color Field */}
+                            {/* End of Item Color Field */}
+                            
+                            <Grid item xs={6}>
+                                <Grid container spacing={2}>
+                                    {/* Category Field */}
+                                    <Grid item={true} xs={12} sm={12}>
+                                        <StyledFormControl fullWidth>
+                                            <InputLabel id="categ">Category</InputLabel>
+                                            <Select
+                                                labelId="fd_category-id"
+                                                id="fd_category-id"
+                                                value={values.fd_category}
+                                                label="Category"
+                                                onChange={(event) => setValues({ ...values, fd_category: event.target.value })}
+                                            >
+                                                <MenuItem value={'Animal'}>Animal/Pet</MenuItem>  
+                                                <MenuItem value={'Clothing'}>Clothing</MenuItem>  
+                                                <MenuItem value={'Electronic gadgets'}>Electronic gadgets</MenuItem>
+                                                <MenuItem value={'Personal accessories'}>Personal accessories</MenuItem>
+                                            </Select>
+                                        </StyledFormControl>
+                                    </Grid>
+                                    {/* End of Category Field */}
 
-                            {/* fd_category Field */}
-                            <Grid item={true} xs={12} sm={6}>
-                                <StyledFormControl fullWidth>
-                                    <InputLabel id="categ">Category</InputLabel>
-                                    <Select
-                                        labelId="fd_category-id"
-                                        id="fd_category-id"
-                                        value={values.fd_category}
-                                        label="Category"
-                                        onChange={(event) => setValues({ ...values, fd_category: event.target.value })}
-                                    >
-                                        <MenuItem value='Animal'>Animal/Pet</MenuItem>
-                                        <MenuItem value='Clothing'>Clothing</MenuItem>
-                                        <MenuItem value='Electronic gadgets'>Electronic gadgets</MenuItem>
-                                        <MenuItem value='Personal accessories'>Personal accessories</MenuItem>
-                                    </Select>
-                                </StyledFormControl>
+                                    {/* Additional Information Field */}
+                                    <Grid item={true} xs={12} sm={12}>
+                                        <StyledTextField
+                                            id="fd_addinfo"
+                                            label="Additional Information"
+                                            variant="outlined"
+                                            name='add-info'
+                                            size='medium'
+                                            fullWidth
+                                            multiline
+                                            rows={3}
+                                            maxRows={4}
+                                            onChange={(e) => setValues({ ...values, fd_addinfo: e.target.value })}
+                                        />
+                                    </Grid>
+                                    {/* End of Additional Information Field */}
+                                </Grid>
                             </Grid>
-                            {/* End of fd_category Field */}
+
+                            
 
                             {/* Image Attachment Field */}
                             <Grid item={true} xs={12} sm={6}>
@@ -226,22 +257,7 @@ function FoundForm () {
                             </Grid>
                             {/* End of Image Attachment Field */}
 
-                            {/* Additional Information Field */}
-                            <Grid item={true} xs={12} sm={6}>
-                                <StyledTextField
-                                    id="fd_addinfo"
-                                    label="Additional Information"
-                                    variant="outlined"
-                                    name='add-info'
-                                    size='medium'
-                                    fullWidth
-                                    multiline
-                                    rows={3}
-                                    maxRows={4}
-                                    onChange={(e) => setValues({ ...values, fd_addinfo: e.target.value })}
-                                />
-                            </Grid>
-                            {/* End of Additional Information Field */}
+                            
                         </Grid>
                     </Container>
                 </div>
@@ -340,7 +356,7 @@ function FoundForm () {
                                     name='fd_email'
                                     size='medium'
                                     fullWidth
-                                    error = {fd_emailError}
+                                    error = {emailError}
                                     value={values.fd_email}
                                     onChange={(e) => setValues({ ...values, fd_email: e.target.value })}
                                 />
@@ -367,7 +383,6 @@ function FoundForm () {
                             {/* Secondary Contact Field */}
                             <Grid item={true} xs={12} sm={6}>
                                 <StyledTextField
-                                    error = {phoneError}
                                     id="secondary-contact"
                                     label="Secondary contact number"
                                     variant="outlined"
