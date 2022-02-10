@@ -11,10 +11,10 @@ function Posts() {
 
         <Container>
           <Grid container rowSpacing={2} columnSpacing={2}>
-            <Grid xs={6}>
+            <Grid item={true} xs={6}>
               <PostTemplate title='1st Title' content="hello"/>
             </Grid>
-            <Grid xs={6}>
+            <Grid item={true} xs={6}>
               <PostTemplate title='2nd Title' content="this is a content"/>
             </Grid>
 

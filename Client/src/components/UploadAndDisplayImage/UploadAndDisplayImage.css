@@ -1,5 +1,9 @@
 .upload-and-display-container {
-    border: 1px solid gray;
+    border: 1px solid #bdbdbd;
     height: 100%;
     padding: 0 0.8rem;
+}
+
+.upload-and-display-container:hover {
+    border-color: var(--color-primary);
 }
