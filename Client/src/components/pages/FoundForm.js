@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import {Form} from 'react-bootstrap'
 import './FoundForm.css';
 
@@ -13,10 +13,9 @@ import { StyledTextField, StyledFormControl } from './StyledComponents.js';
 import axios from 'axios'
 
 // Dependencies for FoundForm
-import { Container, Grid, TextField, Button, Box, InputLabel, MenuItem, FormControl, Select, Paper } from '@mui/material';
+import { Container, Grid, Button, InputLabel, MenuItem, Select } from '@mui/material';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { breakpoints } from '@mui/system';
 
 function FoundForm () {
 

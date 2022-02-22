@@ -15,8 +15,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  Navigate
+  Navigate,
 } from 'react-router-dom';
 
 function App() {

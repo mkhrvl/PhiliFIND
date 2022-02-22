@@ -4,8 +4,15 @@ import './Home.css';
 
 const Home = () => {
     return (
-        <div>
-            Home Page in Progess
+        <div clasName='home'>
+            <div className='hero-section'>
+                <div className='left-section'>
+                    
+                </div>
+                <div className='right-section'>
+
+                </div>
+            </div>
         </div>
     )
 };
